@@ -17,13 +17,13 @@ export const fetchAllProduct = async (req, res) => {
     let condition = {};
 
     // If not admin, exclude deleted products
-    //   if (!req.query.admin) {
-    //     condition.deleted = { $ne: true };
-    //   }
+      if (!req.query.admin) {
+        condition.deleted = { $ne: true };
+      }
 
     // Initialize query and total count query
-    let query = ProductModel.find({deleted: {$ne: true}});
-    let totalProductsQuery = ProductModel.find({deleted: {$ne: true}});
+    let query = ProductModel.find(condition);
+    let totalProductsQuery = ProductModel.find(condition)
 
     //   Handle category filtering
     if (req.query.category) {

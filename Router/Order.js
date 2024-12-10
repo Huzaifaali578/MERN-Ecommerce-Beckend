@@ -1,9 +1,12 @@
 import express from "express";
-import { createOrder, deleteOrder, fetchOrderByUser, updateOrder } from "../Controller/Order.js";
+import { createOrder, deleteOrder, fetchAllOrder, fetchOrderByUser, updateOrder } from "../Controller/Order.js";
 
 const orderRouter = express.Router();
 // fetching Orders
-orderRouter.get("/", fetchOrderByUser)
+orderRouter.get("/user/:id", fetchOrderByUser)
+// Adding new order
+// fetching All Orders
+orderRouter.get("/", fetchAllOrder)
 // Adding new order
 orderRouter.post("/", createOrder);
 // updating order
