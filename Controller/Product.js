@@ -2,7 +2,6 @@ import { ProductModel } from "../Model/Product.js";
 
 export const createProduct = async (req, res) => {
   try {
-    console.log("Received Request Body:", req.body);
     const product = new ProductModel(req.body);
     const savedProduct = await product.save();
     res.status(201).json(savedProduct);
@@ -23,8 +22,8 @@ export const fetchAllProduct = async (req, res) => {
     //   }
 
     // Initialize query and total count query
-    let query = ProductModel.find(condition);
-    let totalProductsQuery = ProductModel.find(condition);
+    let query = ProductModel.find({deleted: {$ne: true}});
+    let totalProductsQuery = ProductModel.find({deleted: {$ne: true}});
 
     //   Handle category filtering
     if (req.query.category) {
@@ -85,6 +84,8 @@ export const fetchProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id)
+    console.log(req.body)
     const product = await ProductModel.findByIdAndUpdate(id, req.body, {new:true});
     res.status(201).json(product);
   } catch (err) {
