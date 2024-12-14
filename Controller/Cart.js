@@ -3,17 +3,17 @@ import { CartModel } from "../Model/Cart.js";
 export const fetchCartByUser = async (req, res) => {
   try {
     // Extract the user parameter from the query
-    const { user } = req.query;
+    const { id } = req.user;
 
     // Check if the user parameter is provided
-    if (!user) {
-      return res
-        .status(400)
-        .json({ error: "User query parameter is required" });
-      }
+    // if (!user) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "User query parameter is required" });
+    //   }
       
     // Fetch cart items by user, populating references
-    const cartItems = await CartModel.find({ user }) // Matches the `user` field in CartModel
+    const cartItems = await CartModel.find({ user: id }) // Matches the `user` field in CartModel
       .populate("user") // Populate user details (match schema field)
       .populate("product") // Populate product details (match schema field)
           .exec();

@@ -3,7 +3,7 @@ import { fetchUserById, updateUser } from "../Controller/User.js";
 
 const UserRouter = express.Router();
 
-UserRouter.get("/:id", fetchUserById)
+UserRouter.get("/own", fetchUserById)
     
 UserRouter.patch("/:id", updateUser);
 

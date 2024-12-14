@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 
 export const fetchUserById = async (req, res) => {
   try {
-    const { id } = req.params;
-    console.log("req.params:", req.params);
+    const id  = req.user.id;
+    console.log("req.user:", id);
 
     // Validate the ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
