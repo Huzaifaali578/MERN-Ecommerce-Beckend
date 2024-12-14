@@ -20,6 +20,7 @@ import { cookieExtractor, isAuth, sanitizeUser } from "./services/commen.js";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
+import path from "path"
 
 
 // create server
@@ -31,7 +32,7 @@ opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY;
 
 // Middleware
-server.use(express.static('build'));
+server.use(express.static(path.resolve(__dirname, 'build')));
 server.use(cookieParser());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
