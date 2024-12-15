@@ -20,7 +20,12 @@ import { cookieExtractor, isAuth, sanitizeUser } from "./services/commen.js";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
-import path from "path"
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Emulate __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 // create server

@@ -3,7 +3,7 @@ import { createOrder, deleteOrder, fetchAllOrder, fetchOrderByUser, updateOrder 
 
 const orderRouter = express.Router();
 // fetching Orders
-orderRouter.get("/user/:id", fetchOrderByUser)
+orderRouter.get("/user/", fetchOrderByUser)
 // Adding new order
 // fetching All Orders
 orderRouter.get("/", fetchAllOrder)

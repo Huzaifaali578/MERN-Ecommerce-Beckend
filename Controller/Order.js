@@ -1,11 +1,13 @@
 import { OrderModel } from "../Model/Order.js";
 
 export const fetchOrderByUser = async (req, res) => {
-  const { id } = req.query;
-  console.log({ id })
+  const { id } = req.user;
+  console.log(req.user)
+  console.log("fetchOrderByUser", id)
   try {
-    const orders = await OrderModel.find({id});
+    const orders = await OrderModel.find(id);
     // console.log(orders)
+    console.log("orders", orders )
     res.status(200).json(orders);
   } catch (err) {
     res.status(400).json(err);
