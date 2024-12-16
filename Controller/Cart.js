@@ -50,12 +50,12 @@ export const addToCart = async (req, res) => {
 
 export const updateCart = async (req, res) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
         const { id } = req.params;
-        console.log(id)
+        // console.log(id)
         const cart = await CartModel.findByIdAndUpdate(id, req.body, { new: true });
         await cart.populate("product")
-        console.log(cart)
+        // console.log(cart)
         res.status(200).json(cart)
     } catch (err) {
         res.status(400).json(err)

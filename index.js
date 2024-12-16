@@ -17,7 +17,7 @@ import { UserModel } from "./Model/User.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import { cookieExtractor, isAuth, sanitizeUser } from "./services/commen.js";
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import { Strategy as JwtStrategy } from "passport-jwt";
 import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
 import path from "path";
@@ -50,14 +50,14 @@ server.use(
 );
 server.use(
     session({
-        secret: 'MySuperSecureSecretKey123!',
+        secret: process.env.SESSION_KEY,
         resave: false,
-        saveUninitialized: true,
-        cookie: {
-            secure: process.env.NODE_ENV === 'production', // Ensure cookie is secure in production
-            httpOnly: true, // Helps mitigate XSS attacks
-            maxAge: 24 * 60 * 60 * 1000 // Set the cookie expiration time, e.g., 1 day
-          }
+        saveUninitialized: false,
+        // cookie: {
+        //     secure: process.env.NODE_ENV === 'production', // Ensure cookie is secure in production
+        //     httpOnly: true, // Helps mitigate XSS attacks
+        //     maxAge: 24 * 60 * 60 * 1000 // Set the cookie expiration time, e.g., 1 day
+        //   }
     })
 );
 
@@ -70,6 +70,10 @@ server.use(passport.authenticate('session'));
 server.get("/", (req, res) => {
     res.json({ Status: "Success" });
 });
+// server.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+// });
+
 
 // Mount routers
 server.use("/products", isAuth(), productRouter);
@@ -82,10 +86,10 @@ server.use("/orders", isAuth(), orderRouter);
 
 // Passport Local Strategy
 passport.use('local',
-    new LocalStrategy({ usernameField: "email" }, // Fixed typo
+    new LocalStrategy({ usernameField: "email" }, 
         async function (email, password, done) {
-            console.log("Username:", email); // Debugging: log email
-            console.log("Password:", password); // Debugging: log password
+            // console.log("Username:", email); // Debugging: log email
+            // console.log("Password:", password); // Debugging: log password
             try {
                 const user = await UserModel.findOne({ email: email });
                 if (!user) {
@@ -105,7 +109,7 @@ passport.use('local',
 );
 // Passport jwt strategy
 passport.use('jwt', new JwtStrategy(opts, async function (jwt_payload, done) {
-    console.log("jwt_payload", jwt_payload.id)
+    // console.log("jwt_payload", jwt_payload)
     try {
         const user = await UserModel.findById(jwt_payload.id); // Use correct key (e.g., `id`)
         if (user) {
@@ -120,19 +124,19 @@ passport.use('jwt', new JwtStrategy(opts, async function (jwt_payload, done) {
 
 
 passport.serializeUser((user, cb) => {
-    console.log("serializeUser")
+    // // console.log("serializeUser")
     process.nextTick(() => cb(null, { id: user.id, role: user.role }));
 });
 
 passport.deserializeUser((user, cb) => {
-    console.log("de-serializeUser")
+    // console.log("de-serializeUser")
     process.nextTick(() => cb(null, user));
 });
 
 
 // Global error handling middleware
 server.use((err, req, res, next) => {
-    console.error(err.stack);
+    // console.error(err.stack);
     res.status(500).json({ error: "Internal Server Error" });
 });
 
@@ -158,7 +162,7 @@ server.post("/create-payment-intent", async (req, res) => {
     res.send({
         clientSecret: paymentIntent.client_secret,
         // [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
-        dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
+        //dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
     });
 });
 

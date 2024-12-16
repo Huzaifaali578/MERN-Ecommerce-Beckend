@@ -2,12 +2,12 @@ import { OrderModel } from "../Model/Order.js";
 
 export const fetchOrderByUser = async (req, res) => {
   const { id } = req.user;
-  console.log(req.user)
-  console.log("fetchOrderByUser", id)
+  // console.log(req.user)
+  // console.log("fetchOrderByUser", id)
   try {
     const orders = await OrderModel.find({ user: id });
-    // console.log(orders)
-    console.log("orders", orders )
+    // // console.log(orders)
+    // console.log("orders", orders )
     res.status(200).json(orders);
   } catch (err) {
     res.status(400).json(err);
@@ -38,14 +38,14 @@ export const createOrder = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
     try {
-        // console.log(req.body)
+        // // console.log(req.body)
       const { id } = req.params;
-      console.log("updateOrder",req.body)
-      console.log("updateOrder id",id)
-        // console.log(id)
+      // console.log("updateOrder",req.body)
+      // console.log("updateOrder id",id)
+        // // console.log(id)
         const order = await OrderModel.findByIdAndUpdate(id, req.body, { new: true });
         // await cart.populate("product")
-        // console.log(cart)
+        // // console.log(cart)
         res.status(200).json(order)
     } catch (err) {
         res.status(400).json(err)
@@ -95,7 +95,7 @@ export const fetchAllOrder = async (req, res) => {
 
     // Execute query
     const docs = await query.exec();
-    // console.log(docs)
+    // // console.log(docs)
 
     // Set headers and send response
     res.set("X-Total-Count", totalDocs);

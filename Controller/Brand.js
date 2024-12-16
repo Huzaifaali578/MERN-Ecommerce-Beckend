@@ -11,7 +11,7 @@ export const fetchBrands = async (req, res) => {
 
 export const createBrand = async (req, res) => {
     try {
-        // console.log("Received Request Body:", req.body);
+        // // console.log("Received Request Body:", req.body);
         const brands = new BrandModel(req.body);
         const savedbrands = await brands.save();
         res.status(201).json(savedbrands);

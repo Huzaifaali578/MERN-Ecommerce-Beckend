@@ -9,8 +9,11 @@ export function sanitizeUser(user) {
 
 export const cookieExtractor = function(req) {
     let token = null;
+    // console.log("cookieExtractor", req)
+    
     if (req && req.cookies) {
         token = req.cookies['jwt'];
     }
+    console.log("cookieExtractor", token)
     return token;
 };

@@ -1,6 +1,6 @@
 import { UserModel } from "../Model/User.js";
 import bcrypt from "bcrypt";
-import { sanitizeUser } from "../services/commen.js";
+import { cookieExtractor, sanitizeUser } from "../services/commen.js";
 import jwt from "jsonwebtoken";
 
 export const createUser = async (req, res) => {
@@ -31,21 +31,41 @@ export const createUser = async (req, res) => {
 };
 
 export const loginUser = (req, res) => {
-    //   res.status(200).json({ message: "Login successful", user: req.user });
+  //   res.status(200).json({ message: "Login successful", user: req.user });
+  console.log("login user", req.user)
     res
-    .cookie("jwt", req.user.token, {
-      expires: new Date(Date.now() + 3600000),
-      httpOnly: true,
-    })
-    .status(201)
-    .json(req.user.token);
+      .cookie("jwt", req.user.token, {
+        expires: new Date(Date.now() + 3600000),
+        httpOnly: true,
+      })
+      .status(201)
+      .json(req.user.token);
+      // console.log("req.user.token", req.user.token)
 };
 
 export const checkAuth = (req, res) => {
   //   res.status(200).json({ message: "Login successful", user: req.user });
   if (req.user) {
     res.json(req.user)
+    // console.log("check", req.user)
   } else {
     res.sendStatus(401)
+  }
+};
+export const signOut = (req, res) => {
+  try {
+    // console.log("Logging out...");
+
+    // Clear the JWT token cookie
+    res.clearCookie('jwt', {
+      httpOnly: true, // Ensures the cookie can't be accessed via JavaScript
+      // secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
+      sameSite: 'Strict', // Adjust if frontend and backend domains are different
+    });
+
+    return res.status(200).json({ status: "success", message: "Logged out successfully." });
+  } catch (error) {
+    console.error("Error in logout:", error);
+    res.status(500).json({ status: "error", message: "Failed to log out." });
   }
 };

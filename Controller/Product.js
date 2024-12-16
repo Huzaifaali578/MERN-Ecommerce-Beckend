@@ -59,7 +59,7 @@ export const fetchAllProduct = async (req, res) => {
 
     // Execute query
     const docs = await query.exec();
-    // console.log(docs)
+    // // console.log(docs)
 
     // Set headers and send response
     res.set("X-Total-Count", totalDocs);
@@ -84,8 +84,8 @@ export const fetchProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id)
-    console.log(req.body)
+    // console.log(id)
+    // console.log(req.body)
     const product = await ProductModel.findByIdAndUpdate(id, req.body, {new:true});
     res.status(201).json(product);
   } catch (err) {

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 export const fetchUserById = async (req, res) => {
   try {
     const id  = req.user.id;
-    console.log("req.user:", id);
+    // console.log("req.user:", id);
 
     // Validate the ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -13,7 +13,7 @@ export const fetchUserById = async (req, res) => {
 
     // Fetch user by ID and select specific fields
     const user = await UserModel.findById(id, 'name email id role addresses').exec();
-    console.log("Fetched user:", user);
+    // console.log("Fetched user:", user);
 
     // Handle case where user is not found
     if (!user) {
