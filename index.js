@@ -43,7 +43,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: "https://mern-ecommerce-beckend-dxqncng24-huzaifa-nagariyas-projects.vercel.app/",
+        // origin: "http://localhost:3000",
         credentials: true,
         exposedHeaders: ["X-Total-Count"],
     })
