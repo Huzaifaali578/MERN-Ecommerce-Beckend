@@ -5,7 +5,7 @@ export const fetchOrderByUser = async (req, res) => {
   console.log(req.user)
   console.log("fetchOrderByUser", id)
   try {
-    const orders = await OrderModel.find(id);
+    const orders = await OrderModel.find({ user: id });
     // console.log(orders)
     console.log("orders", orders )
     res.status(200).json(orders);
