@@ -50,9 +50,10 @@ server.use(
 );
 server.use(
     session({
-        secret: process.env.SESSION_KEY,
+        secret: 'MySuperSecureSecretKey123!',
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
+        cookie: { secure: false }
     })
 );
 
@@ -138,23 +139,23 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 server.post("/create-payment-intent", async (req, res) => {
-  const { totalAmount } = req.body;
+    const { totalAmount } = req.body;
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: totalAmount*100,
-    currency: "usd",
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: totalAmount * 100,
+        currency: "usd",
+        // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+        automatic_payment_methods: {
+            enabled: true,
+        },
+    });
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-    // [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
-    dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
-  });
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+        // [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
+        dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
+    });
 });
 
 
