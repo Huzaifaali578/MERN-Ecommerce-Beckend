@@ -71,9 +71,9 @@ server.use(passport.authenticate('session'));
 server.get("/", (req, res) => {
     res.json({ Status: "Success" });
 });
-server.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-});
+// server.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+// });
 
 
 // Mount routers

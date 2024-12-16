@@ -1,14 +1,23 @@
 {
-    "builds": [
-      {
-        "src": "index.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "build/**",
-        "use": "@vercel/static"
-      }
-    ],
-  
-    "rewrites": [{ "source": "/(.*)", "destination": "index.js" }]
-  }
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "build/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {"scr": "/products","dest": "index.js"},{"scr": "/products/(.*)","dest": "index.js"},
+    {"scr": "/brand","dest": "index.js"},{"scr": "/brand/(.*)","dest": "index.js"},
+    {"scr": "/category","dest": "index.js"},{"scr": "/category/(.*)","dest": "index.js"},
+    {"scr": "/users","dest": "index.js"},{"scr": "/users/(.*)","dest": "index.js"},
+    {"scr": "/auth","dest": "index.js"},{"scr": "/auth/(.*)","dest": "index.js"},
+    {"scr": "/cart","dest": "index.js"},{"scr": "/cart/(.*)","dest": "index.js"},
+    {"scr": "/orders","dest": "index.js"},{"scr": "/orders/(.*)","dest": "index.js"},
+    {"scr": "/","dest": "build/index.html"},{"scr": "/(.+)","dest": "build/$1" }
+  ]
+}
+
