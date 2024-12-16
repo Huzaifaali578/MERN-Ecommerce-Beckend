@@ -53,7 +53,11 @@ server.use(
         secret: 'MySuperSecureSecretKey123!',
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: false }
+        cookie: {
+            secure: process.env.NODE_ENV === 'production', // Ensure cookie is secure in production
+            httpOnly: true, // Helps mitigate XSS attacks
+            maxAge: 24 * 60 * 60 * 1000 // Set the cookie expiration time, e.g., 1 day
+          }
     })
 );
 
