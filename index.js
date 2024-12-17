@@ -22,6 +22,7 @@ import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
 import path from "path";
 import { fileURLToPath } from "url";
+import MongoStore from "connect-mongo";
 
 // Emulate __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -50,11 +51,28 @@ server.use(
         exposedHeaders: ["X-Total-Count"],
     })
 );
+// server.use(
+//     session({
+//         secret: process.env.SESSION_KEY,
+//         resave: false,
+//         saveUninitialized: false,
+//     })
+// );
+
 server.use(
     session({
         secret: process.env.SESSION_KEY,
         resave: false,
         saveUninitialized: false,
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGO_URI, // Replace with your MongoDB connection string
+            collectionName: "sessions",
+        }),
+        cookie: {
+            secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24, // 1 day
+        },
     })
 );
 
