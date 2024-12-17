@@ -54,11 +54,6 @@ server.use(
         secret: process.env.SESSION_KEY,
         resave: false,
         saveUninitialized: false,
-        // cookie: {
-        //     secure: process.env.NODE_ENV === 'production', // Ensure cookie is secure in production
-        //     httpOnly: true, // Helps mitigate XSS attacks
-        //     maxAge: 24 * 60 * 60 * 1000 // Set the cookie expiration time, e.g., 1 day
-        //   }
     })
 );
 
@@ -87,8 +82,9 @@ server.use("/api/orders", isAuth(), orderRouter);
 server.get('*', (req, res, next) => {
     if (req.path.startsWith('/api/')) {
         return next(); // Skip React handling for API requests
+    } else {  
+        res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
     }
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
 // Passport Local Strategy
