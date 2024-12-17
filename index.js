@@ -93,7 +93,7 @@ server.get('*', (req, res, next) => {
 
 // Passport Local Strategy
 passport.use('local',
-    new LocalStrategy({ usernameField: "email" }, 
+    new LocalStrategy({ usernameField: "email" },
         async function (email, password, done) {
             // console.log("Username:", email); // Debugging: log email
             // console.log("Password:", password); // Debugging: log password
@@ -153,27 +153,38 @@ server.use((err, req, res, next) => {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
+
+
 server.post("/create-payment-intent", async (req, res) => {
-    const { totalAmount } = req.body;
+    try {
+        const { totalAmount } = req.body;
 
-    // Create a PaymentIntent with the order amount and currency
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: totalAmount * 100,
-        currency: "usd",
-        // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-        automatic_payment_methods: {
-            enabled: true,
-        },
-    });
+        if (!totalAmount || totalAmount <= 0) {
+            return res.status(400).json({ error: "Invalid amount" });
+        }
+        console.log("Environment:", process.env.NODE_ENV);
+        console.log("Stripe Key Exists:", !!process.env.STRIPE_SECRET_KEY);
 
-    res.send({
-        clientSecret: paymentIntent.client_secret,
-        // [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
-        dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
-    });
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: totalAmount * 100, // Convert to cents
+            currency: "usd",
+            automatic_payment_methods: {
+                enabled: true,
+            },
+        });
+
+        res.status(200).json({
+            clientSecret: paymentIntent.client_secret,
+        });
+    } catch (error) {
+        console.error("Error creating payment intent:", error);
+        res.status(500).json({ error: "Failed to create payment intent" });
+    }
 });
 
 
+
+// dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
 // Start the server
 server.listen(process.env.PORT, () => {
     console.log("Server is listening on port 8080");

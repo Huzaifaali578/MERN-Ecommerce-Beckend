@@ -14,6 +14,6 @@ export const cookieExtractor = function(req) {
     if (req && req.cookies) {
         token = req.cookies['jwt'];
     }
-    console.log("cookieExtractor", token)
+    // console.log("cookieExtractor", token)
     return token;
 };
