@@ -45,6 +45,7 @@ server.use(
     cors({
         // origin: "https://mern-ecommerce-beckend-dxqncng24-huzaifa-nagariyas-projects.vercel.app/",
         // origin: "https://mern-ecommerce-frontend-blue.vercel.app",
+        origin: true,
         credentials: true,
         exposedHeaders: ["X-Total-Count"],
     })
