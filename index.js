@@ -68,6 +68,11 @@ server.use(
             mongoUrl: process.env.MONGO_DB_URL, // Replace with your MongoDB connection string
             collectionName: "sessions",
         }),
+        cookie: {
+            secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24, // 1 day
+        },
     })
 );
 

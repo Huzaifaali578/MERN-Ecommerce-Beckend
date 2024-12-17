@@ -18,7 +18,6 @@ export const createUser = async (req, res) => {
           .cookie("jwt", token, {
             expires: new Date(Date.now() + 3600000),
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
           })
           .status(201)
           .json(token);
@@ -38,7 +37,6 @@ export const loginUser = (req, res) => {
       .cookie("jwt", req.user.token, {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
       })
       .status(201)
       .json(req.user.token);
