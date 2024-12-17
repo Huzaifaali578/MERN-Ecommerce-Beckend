@@ -43,8 +43,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(
     cors({
-        origin: "https://mern-ecommerce-beckend-dxqncng24-huzaifa-nagariyas-projects.vercel.app/",
-        // origin: "http://localhost:3000",
+        // origin: "https://mern-ecommerce-beckend-dxqncng24-huzaifa-nagariyas-projects.vercel.app/",
+        origin: "http://localhost:3000",
         credentials: true,
         exposedHeaders: ["X-Total-Count"],
     })
@@ -71,19 +71,19 @@ server.use(passport.authenticate('session'));
 server.get("/", (req, res) => {
     res.json({ Status: "Success" });
 });
-server.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-});
+// server.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+// });
 
 
 // Mount routers
-server.use("/products", isAuth(), productRouter);
-server.use("/brand", isAuth(), brandRouter);
-server.use("/category", isAuth(), categoryRouter);
-server.use("/users", isAuth(), UserRouter);
-server.use("/auth", authRouter);
-server.use("/cart", isAuth(), cartRouter);
-server.use("/orders", isAuth(), orderRouter);
+server.use("/api/products", isAuth(), productRouter);
+server.use("/api/brand", isAuth(), brandRouter);
+server.use("/api/category", isAuth(), categoryRouter);
+server.use("/api/users", isAuth(), UserRouter);
+server.use("/api/auth", authRouter);
+server.use("/api/cart", isAuth(), cartRouter);
+server.use("/api/orders", isAuth(), orderRouter);
 
 // Passport Local Strategy
 passport.use('local',
