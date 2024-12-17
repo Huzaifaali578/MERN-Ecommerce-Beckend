@@ -9,23 +9,14 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
-    { "src": "/api/products", "dest": "index.js" },
-    { "src": "/api/products/(.*)", "dest": "index.js" },
-    { "src": "/api/brand", "dest": "index.js" },
-    { "src": "/api/brand/(.*)", "dest": "index.js" },
-    { "src": "/api/category", "dest": "index.js" },
-    { "src": "/api/category/(.*)", "dest": "index.js" },
-    { "src": "/api/users", "dest": "index.js" },
-    { "src": "/api/users/(.*)", "dest": "index.js" },
-    { "src": "/api/auth", "dest": "index.js" },
-    { "src": "/api/auth/(.*)", "dest": "index.js" },
-    { "src": "/api/cart", "dest": "index.js" },
-    { "src": "/api/cart/(.*)", "dest": "index.js" },
-    { "src": "/api/orders", "dest": "index.js" },
-    { "src": "/api/orders/(.*)", "dest": "index.js" },
-    { "src": "/", "dest": "build/index.html" },
-    { "src": "/auth/(.+)", "dest": "build/index.html" },
-    { "src": "/(.+)", "dest": "build/$1" }
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/build/$1"
+    }
   ]
 }
