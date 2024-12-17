@@ -83,6 +83,14 @@ server.use("/api/auth", authRouter);
 server.use("/api/cart", isAuth(), cartRouter);
 server.use("/api/orders", isAuth(), orderRouter);
 
+// Catch-all route for React app
+server.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+        return next(); // Skip React handling for API requests
+    }
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
+
 // Passport Local Strategy
 passport.use('local',
     new LocalStrategy({ usernameField: "email" }, 
@@ -161,7 +169,7 @@ server.post("/create-payment-intent", async (req, res) => {
     res.send({
         clientSecret: paymentIntent.client_secret,
         // [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
-        //dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
+        dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
     });
 });
 
