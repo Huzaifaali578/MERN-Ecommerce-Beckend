@@ -1,10 +1,32 @@
 {
   "builds": [
-    { "src": "index.js", "use": "@vercel/node" },
-    { "src": "build/**", "use": "@vercel/static" }
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "build/**",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "index.js" },
-    { "src": "/(.*)", "dest": "build/index.html" }
+    { "src": "/products", "dest": "index.js" },
+    { "src": "/products/(.*)", "dest": "index.js" },
+    { "src": "/brand", "dest": "index.js" },
+    { "src": "/brand/(.*)", "dest": "index.js" },
+    { "src": "/category", "dest": "index.js" },
+    { "src": "/category/(.*)", "dest": "index.js" },
+    { "src": "/users", "dest": "index.js" },
+    { "src": "/users/(.*)", "dest": "index.js" },
+    { "src": "/auth", "dest": "index.js" },
+    { "src": "/auth/(.*)", "dest": "index.js" },
+    { "src": "/cart", "dest": "index.js" },
+    { "src": "/cart/(.*)", "dest": "index.js" },
+    { "src": "/orders", "dest": "index.js" },
+    { "src": "/orders/(.*)", "dest": "index.js" },
+    { "src": "/", "dest": "build/index.html" },
+    { "src": "/auth", "dest": "build/index.html" },
+    { "src": "/auth/(.+)", "dest": "build/index.html" },
+    { "src": "/(.+)", "dest": "build/$1" }
   ]
 }
